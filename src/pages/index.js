@@ -7,7 +7,7 @@ import LightBulb from "@/components/LightBulb";
 import OrbitControls from "@/components/OrbitControls";
 import Draggable from "@/components/Draggable";
 import { Light } from "three";
-import { Suspense, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import RotatingFigures from "@/components/RotatingFigures";
 import { Box, Cone, Cylinder, Sphere, Torus } from "@react-three/drei";
 
@@ -46,16 +46,18 @@ export default function Home() {
   const [indexFigures, setIndexFigures] = useState(0);
   const [actualFigure, setActualFigure] = useState(figures[indexFigures]);
 
-  window.addEventListener("deviceorientation", (event) => {
-    if (event.gamma > 10) {
-      setIndexFigures((indexFigures + 1) % figures.length);
-      setActualFigure(figures[indexFigures]);
-    }
-    if (event.gamma < -10) {
-      setIndexFigures((indexFigures - 1) % figures.length);
-      setActualFigure(figures[indexFigures]);
-    }
-  });
+  useEffect(() => {
+    window.addEventListener("deviceorientation", (event) => {
+      if (event.gamma > 10) {
+        setIndexFigures((indexFigures + 1) % figures.length);
+        setActualFigure(figures[indexFigures]);
+      }
+      if (event.gamma < -10) {
+        setIndexFigures((indexFigures - 1) % figures.length);
+        setActualFigure(figures[indexFigures]);
+      }
+    });
+  }, []);
 
   return (
     <div className="flex flex-col justify-between h-screen items-center bg-black py-10">
