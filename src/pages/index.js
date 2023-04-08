@@ -47,17 +47,25 @@ export default function Home() {
   const [actualFigure, setActualFigure] = useState(figures[indexFigures]);
 
   useEffect(() => {
-    window.addEventListener("deviceorientation", (event) => {
-      if (event.gamma > 10) {
+    handleOrientationChange = () => {
+      const angle = Math.abs(window.orientation || screen.orientation.angle);
+      if (angle === 90) {
+        // Acción si gira hacia la derecha
+        console.log("El dispositivo ha girado hacia la derecha");
         setIndexFigures((indexFigures + 1) % figures.length);
         setActualFigure(figures[indexFigures]);
-      }
-      if (event.gamma < -10) {
+      } else if (angle === 270) {
+        // Acción si gira hacia la izquierda
+        console.log("El dispositivo ha girado hacia la izquierda");
         setIndexFigures((indexFigures - 1) % figures.length);
         setActualFigure(figures[indexFigures]);
+      } else {
+        // Acción si el dispositivo se encuentra en modo vertical
+        console.log("El dispositivo está en modo vertical");
       }
-    });
-  }, []);
+    };
+    handleOrientationChange();
+  }, [window.orientation, screen.orientation.angle]);
 
   return (
     <div className="flex flex-col justify-between h-screen items-center bg-black py-10">
