@@ -10,6 +10,7 @@ import { Light } from "three";
 import { Suspense, useEffect, useState } from "react";
 import RotatingFigures from "@/components/RotatingFigures";
 import { Box, Cone, Cylinder, Sphere, Torus } from "@react-three/drei";
+import Camera from "@/components/Camera";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -45,7 +46,7 @@ export default function Home() {
   const [rotatingValue, setRotatingValue] = useState(0.01);
   const [indexFigures, setIndexFigures] = useState(0);
   const [actualFigure, setActualFigure] = useState(figures[indexFigures]);
-  const [zoomCamera, setZoomCamera] = useState(3);
+  const [zoomCamera, setZoomCamera] = useState(4);
 
   useEffect(() => {
     function handleDeviceOrientation(event) {
@@ -54,22 +55,22 @@ export default function Home() {
 
       // Aumentar la velocidad de rotación de la figura 3D en dirección positiva - eje X (derecha)
       if (xRotation > 0) {
-        setRotatingValue((rotatingValue) => rotatingValue + 0.0001);
+        setRotatingValue((rotatingValue) => rotatingValue + 0.001);
       }
 
       // Disminuir la velocidad de rotación de la figura 3D en dirección positiva - eje X (izquierda)
       if (xRotation < 0) {
-        setRotatingValue((rotatingValue) => rotatingValue - 0.0001);
+        setRotatingValue((rotatingValue) => rotatingValue - 0.001);
       }
 
       // Aumentar el zoom de la figura 3D en dirección positiva - eje Y (arriba)
       if (yRotation > 0) {
-        setZoomCamera((zoomCamera) => zoomCamera + 0.0001);
+        setZoomCamera((zoomCamera) => zoomCamera + 0.001);
       }
 
       // Disminuir el zoom de la figura 3D en dirección positiva - eje Y (abajo)
       if (yRotation < 0) {
-        setZoomCamera((zoomCamera) => zoomCamera - 0.0001);
+        setZoomCamera((zoomCamera) => zoomCamera - 0.001);
       }
     }
 
@@ -84,21 +85,15 @@ export default function Home() {
     <div className="flex flex-col justify-between h-screen items-center bg-black py-10">
       <button
         onClick={() => {
-          setIndexFigures((indexFigures + 1) % figures.length);
-          setActualFigure(figures[indexFigures]);
+          setZoomCamera(zoomCamera + 0.1);
         }}
         className="text-white"
       >
         Rotate
       </button>
       <div className={css.scene}>
-        <Canvas
-          shadows
-          className={css.canvas}
-          camera={{
-            position: [0, 2, zoomCamera],
-          }}
-        >
+        <Canvas shadows className={css.canvas}>
+          <Camera position={[0, 2, zoomCamera]} />
           <ambientLight color={"white"} intensity={0.2} />
           <LightBulb position={[-10, 10, -10]} />
           <OrbitControls />
