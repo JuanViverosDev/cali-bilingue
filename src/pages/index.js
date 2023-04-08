@@ -53,23 +53,23 @@ export default function Home() {
       const yRotation = event.gamma; // Valor del giroscopio en dirección positiva - eje Y
 
       // Aumentar la velocidad de rotación de la figura 3D en dirección positiva - eje X (derecha)
-      if (xRotation >= 90) {
-        setRotatingValue((rotatingValue) => rotatingValue + 0.01);
+      if (xRotation > 0) {
+        setRotatingValue((rotatingValue) => rotatingValue + 0.0001);
       }
 
       // Disminuir la velocidad de rotación de la figura 3D en dirección positiva - eje X (izquierda)
-      if (xRotation <= 270) {
-        setRotatingValue((rotatingValue) => rotatingValue - 0.01);
+      if (xRotation < 0) {
+        setRotatingValue((rotatingValue) => rotatingValue - 0.0001);
       }
 
       // Aumentar el zoom de la figura 3D en dirección positiva - eje Y (arriba)
-      if (yRotation >= 90) {
-        setZoomCamera((zoomCamera) => zoomCamera + 0.1);
+      if (yRotation > 0) {
+        setZoomCamera((zoomCamera) => zoomCamera + 0.0001);
       }
 
       // Disminuir el zoom de la figura 3D en dirección positiva - eje Y (abajo)
-      if (yRotation <= 270) {
-        setZoomCamera((zoomCamera) => zoomCamera - 0.1);
+      if (yRotation < 0) {
+        setZoomCamera((zoomCamera) => zoomCamera - 0.0001);
       }
     }
 
