@@ -45,27 +45,40 @@ export default function Home() {
   const [rotatingValue, setRotatingValue] = useState(0.01);
   const [indexFigures, setIndexFigures] = useState(0);
   const [actualFigure, setActualFigure] = useState(figures[indexFigures]);
+  const [zoomCamera, setZoomCamera] = useState(3);
 
   useEffect(() => {
-    handleOrientationChange = () => {
-      const angle = Math.abs(window.orientation || screen.orientation.angle);
-      if (angle === 90) {
-        // Acción si gira hacia la derecha
-        console.log("El dispositivo ha girado hacia la derecha");
-        setIndexFigures((indexFigures + 1) % figures.length);
-        setActualFigure(figures[indexFigures]);
-      } else if (angle === 270) {
-        // Acción si gira hacia la izquierda
-        console.log("El dispositivo ha girado hacia la izquierda");
-        setIndexFigures((indexFigures - 1) % figures.length);
-        setActualFigure(figures[indexFigures]);
-      } else {
-        // Acción si el dispositivo se encuentra en modo vertical
-        console.log("El dispositivo está en modo vertical");
+    function handleDeviceOrientation(event) {
+      const xRotation = event.beta; // Valor del giroscopio en dirección positiva - eje X
+      const yRotation = event.gamma; // Valor del giroscopio en dirección positiva - eje Y
+
+      // Aumentar la velocidad de rotación de la figura 3D en dirección positiva - eje X (derecha)
+      if (xRotation > 0) {
+        setRotatingValue((rotatingValue) => rotatingValue + 0.01);
       }
+
+      // Disminuir la velocidad de rotación de la figura 3D en dirección positiva - eje X (izquierda)
+      if (xRotation < 0) {
+        setRotatingValue((rotatingValue) => rotatingValue - 0.01);
+      }
+
+      // Aumentar el zoom de la figura 3D en dirección positiva - eje Y (arriba)
+      if (yRotation > 0) {
+        setZoomCamera((zoomCamera) => zoomCamera + 0.1);
+      }
+
+      // Disminuir el zoom de la figura 3D en dirección positiva - eje Y (abajo)
+      if (yRotation < 0) {
+        setZoomCamera((zoomCamera) => zoomCamera - 0.1);
+      }
+    }
+
+    window.addEventListener("deviceorientation", handleDeviceOrientation);
+
+    return () => {
+      window.removeEventListener("deviceorientation", handleDeviceOrientation);
     };
-    handleOrientationChange();
-  }, [window.orientation, screen.orientation.angle]);
+  }, []);
 
   return (
     <div className="flex flex-col justify-between h-screen items-center bg-black py-10">
@@ -83,7 +96,7 @@ export default function Home() {
           shadows
           className={css.canvas}
           camera={{
-            position: [0, 2, 4],
+            position: [0, 2, zoomCamera],
           }}
         >
           <ambientLight color={"white"} intensity={0.2} />
