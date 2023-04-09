@@ -11,6 +11,7 @@ import { Suspense, useEffect, useState } from "react";
 import RotatingFigures from "@/components/RotatingFigures";
 import { Box, Cone, Cylinder, Sphere, Torus } from "@react-three/drei";
 import Camera from "@/components/Camera";
+import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/solid";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -82,15 +83,40 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="flex flex-col justify-between h-screen items-center bg-black py-10">
-      <button
-        onClick={() => {
-          setZoomCamera(zoomCamera + 0.1);
-        }}
-        className="text-white"
-      >
-        Rotate
-      </button>
+    <div className="flex flex-col justify-between h-screen items-center bg-black p-10">
+      <div className="flex justify-between w-full mx-10">
+        <ChevronLeftIcon
+          className="h-10 w-10 text-white"
+          onClick={() => {
+            if (indexFigures > 0) {
+              setIndexFigures(indexFigures - 1);
+              setActualFigure(figures[indexFigures + 1]);
+            } else {
+              setIndexFigures(figures.length - 1);
+              setActualFigure(figures[indexFigures + 1]);
+            }
+          }}
+        />
+
+        <div className="flex flex-col items-center">
+          <h2 className="text-2xl text-white font-bold">
+            {figuresData[indexFigures].name}
+          </h2>
+        </div>
+
+        <ChevronRightIcon
+          className="h-10 w-10 text-white"
+          onClick={() => {
+            if (indexFigures < figures.length - 1) {
+              setIndexFigures(indexFigures + 1);
+              setActualFigure(figures[indexFigures]);
+            } else {
+              setIndexFigures(0);
+              setActualFigure(figures[indexFigures]);
+            }
+          }}
+        />
+      </div>
       <div className={css.scene}>
         <Canvas shadows className={css.canvas}>
           <Camera position={[0, 2, zoomCamera]} />
@@ -106,6 +132,9 @@ export default function Home() {
           </Suspense>
         </Canvas>
       </div>
+      <p className="text-white text-center">
+        {figuresData[indexFigures].description}
+      </p>
     </div>
   );
 }

@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@heroicons/react": "^2.0.17",
     "@react-spring/animated": "^9.7.2",
     "@react-spring/core": "^9.7.2",
     "@react-spring/shared": "^9.7.2",
