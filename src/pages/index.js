@@ -57,10 +57,10 @@ export default function Home() {
   useEffect(() => {
     const handleOrientation = (event) => {
       if (event.beta > 20) {
-        setRotatingValue(0.);
+        setRotatingValue( rotatingValue + 0.0001);
       } else if (event.beta < -20) {
-        setRotatingValue(-0.01);
-      }
+        setRotatingValue( rotatingValue - 0.0001);
+      } 
     };
 
     window.addEventListener("deviceorientation", handleOrientation);
