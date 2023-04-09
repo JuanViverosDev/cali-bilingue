@@ -53,36 +53,20 @@ export default function Home() {
   const [indexFigures, setIndexFigures] = useState(0);
   const [zoomCamera, setZoomCamera] = useState(4);
 
+ // Cuando gire el dispositivo a la derecha o izquierda, aumenta el valor de rotación o disminuye el valor de rotación
   useEffect(() => {
-    function handleDeviceOrientation(event) {
-      const xRotation = event.beta; // Valor del giroscopio en dirección positiva - eje X
-      const yRotation = event.gamma; // Valor del giroscopio en dirección positiva - eje Y
-
-      // Aumentar la velocidad de rotación de la figura 3D en dirección positiva - eje X (derecha)
-      if (xRotation > 0) {
-        setRotatingValue((rotatingValue) => rotatingValue + 0.001);
+    const handleOrientation = (event) => {
+      if (event.beta > 20) {
+        setRotatingValue(0.);
+      } else if (event.beta < -20) {
+        setRotatingValue(-0.01);
       }
+    };
 
-      // Disminuir la velocidad de rotación de la figura 3D en dirección positiva - eje X (izquierda)
-      if (xRotation < 0) {
-        setRotatingValue((rotatingValue) => rotatingValue - 0.001);
-      }
-
-      // Aumentar el zoom de la figura 3D en dirección positiva - eje Y (arriba)
-      if (yRotation > 0) {
-        setZoomCamera((zoomCamera) => zoomCamera + 0.001);
-      }
-
-      // Disminuir el zoom de la figura 3D en dirección positiva - eje Y (abajo)
-      if (yRotation < 0) {
-        setZoomCamera((zoomCamera) => zoomCamera - 0.001);
-      }
-    }
-
-    window.addEventListener("deviceorientation", handleDeviceOrientation);
+    window.addEventListener("deviceorientation", handleOrientation);
 
     return () => {
-      window.removeEventListener("deviceorientation", handleDeviceOrientation);
+      window.removeEventListener("deviceorientation", handleOrientation);
     };
   }, []);
 
