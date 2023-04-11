@@ -81,10 +81,10 @@ useEffect(() => {
   window.addEventListener("deviceorientation", handleOrientationX);
   window.addEventListener("deviceorientation", handleOrientationY);
 
-  return () => {
-    window.removeEventListener("deviceorientation", handleOrientationX);
-    window.removeEventListener("deviceorientation", handleOrientationY);
-  };
+  // return () => {
+  //   window.removeEventListener("deviceorientation", handleOrientationX);
+  //   window.removeEventListener("deviceorientation", handleOrientationY);
+  // };
 }, [rotatingValue, zoomCamera]);
 
   useEffect(() => {
