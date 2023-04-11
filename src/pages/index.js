@@ -61,7 +61,6 @@ export default function Home() {
   const [indexFigures, setIndexFigures] = useState(0);
   const [zoomCamera, setZoomCamera] = useState(4);
 
-  // teniendo en cuenta la inclinacion del dispositivo en el eje x, aumenta o disminuye rotatinValue
   useEffect(() => {
     const handleOrientation = (event) => {
       if (event.beta > 0) {
@@ -76,7 +75,6 @@ export default function Home() {
     };
   }, []);
 
-  // teniendo en cuenta la inclinacion del dispositivo en el eje y, aumenta o disminuye zoomCamera
   useEffect(() => {
     const handleOrientation = (event) => {
       if (event.gamma > 0) {
