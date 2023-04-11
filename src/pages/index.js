@@ -12,17 +12,17 @@ import RotatingFigures from "@/components/RotatingFigures";
 import { Box, Cone, Cylinder, Sphere, Torus } from "@react-three/drei";
 import Camera from "@/components/Camera";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/solid";
-import ConeSound from "../sounds/ConeSound.mp3";
-import CylinderSound from "../sounds/CylinderSound.mp3";
-import SphereSound from "../sounds/SphereSound.mp3";
-import TorusSound from "../sounds/TorusSound.mp3";
 import CubeSound from "../sounds/CubeSound.mp3";
-
+import SphereSound from "../sounds/SphereSound.mp3";
+import CylinderSound from "../sounds/CylinderSound.mp3";
+import ConeSound from "../sounds/ConeSound.mp3";
+import TorusSound from "../sounds/TorusSound.mp3";
 
 const figuresData = [
   {
     name: "Cube",
-    description: "A cube is a three-dimensional object with six flat sides and straight edges.",
+    description:
+      "A cube is a three-dimensional object with six flat sides and straight edges.",
     component: Box,
     sound: CubeSound,
   },
@@ -61,21 +61,40 @@ export default function Home() {
   const [indexFigures, setIndexFigures] = useState(0);
   const [zoomCamera, setZoomCamera] = useState(4);
 
+  // teniendo en cuenta la inclinacion del dispositivo en el eje x, aumenta o disminuye rotatinValue
   useEffect(() => {
     const handleOrientation = (event) => {
-      if (event.beta > 20) {
-        setRotatingValue( rotatingValue + 0.0001);
-      } else if (event.beta < -20) {
-        setRotatingValue( rotatingValue - 0.0001);
-      } 
+      if (event.beta > 0) {
+        setRotatingValue(rotatingValue + 0.0001);
+      } else {
+        setRotatingValue(rotatingValue - 0.0001);
+      }
     };
-
     window.addEventListener("deviceorientation", handleOrientation);
-
     return () => {
       window.removeEventListener("deviceorientation", handleOrientation);
     };
   }, []);
+
+  // teniendo en cuenta la inclinacion del dispositivo en el eje y, aumenta o disminuye zoomCamera
+  useEffect(() => {
+    const handleOrientation = (event) => {
+      if (event.gamma > 0) {
+        setZoomCamera(zoomCamera + 0.1);
+      } else {
+        setZoomCamera(zoomCamera - 0.1);
+      }
+    };
+    window.addEventListener("deviceorientation", handleOrientation);
+    return () => {
+      window.removeEventListener("deviceorientation", handleOrientation);
+    };
+  }, []);
+
+  useEffect(() => {
+    const audio = new Audio(figuresData[indexFigures].sound);
+    audio.play();
+  }, [indexFigures]);
 
   return (
     <div className="flex flex-col justify-between h-screen items-center bg-black p-10">
@@ -85,12 +104,8 @@ export default function Home() {
           onClick={() => {
             if (indexFigures > 0) {
               setIndexFigures(indexFigures - 1);
-              const audio = new Audio(figuresData[indexFigures].sound);
-              audio.play();
             } else {
               setIndexFigures(figures.length - 1);
-              const audio = new Audio(figuresData[indexFigures].sound);
-              audio.play();
             }
           }}
         />
@@ -104,7 +119,7 @@ export default function Home() {
         <ChevronRightIcon
           className="h-10 w-10 text-white"
           onClick={() => {
-            if (indexFigures < figures.length - 1) {
+            if (indexFigures < figuresData.length - 1) {
               setIndexFigures(indexFigures + 1);
             } else {
               setIndexFigures(0);
@@ -112,7 +127,13 @@ export default function Home() {
           }}
         />
       </div>
-      <div className={css.scene}>
+      <div
+        className={css.scene}
+        onClick={() => {
+          const audio = new Audio(figuresData[indexFigures].sound);
+          audio.play();
+        }}
+      >
         <Canvas shadows className={css.canvas}>
           <Camera position={[0, 2, zoomCamera]} />
           <ambientLight color={"white"} intensity={0.2} />
