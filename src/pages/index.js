@@ -72,9 +72,9 @@ export default function Home() {
 
     const handleOrientationY = (event) => {
       if (event.gamma > 0) {
-        setZoomCamera(zoomCamera + 0.001);
+        setZoomCamera(zoomCamera + 0.1);
       } else if (event.gamma < 0) {
-        setZoomCamera(zoomCamera - 0.001);
+        setZoomCamera(zoomCamera - 0.1);
       }
     };
 
