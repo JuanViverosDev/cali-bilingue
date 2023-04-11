@@ -63,18 +63,18 @@ export default function Home() {
 
   useEffect(() => {
     const handleOrientationX = (event) => {
-      if (event.alpha > 0) {
+      if (event.beta > 0) {
         setRotatingValue(rotatingValue + 0.001);
-      } else if (event.alpha < 0) {
+      } else if (event.beta < 0) {
         setRotatingValue(rotatingValue - 0.001);
       }
     };
 
     const handleOrientationY = (event) => {
       if (event.gamma > 0) {
-        setZoomCamera(zoomCamera + 0.001);
+        setZoomCamera(zoomCamera + 0.01);
       } else if (event.gamma < 0) {
-        setZoomCamera(zoomCamera - 0.001);
+        setZoomCamera(zoomCamera - 0.01);
       }
     };
 
