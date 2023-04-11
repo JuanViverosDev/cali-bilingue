@@ -61,31 +61,31 @@ export default function Home() {
   const [indexFigures, setIndexFigures] = useState(0);
   const [zoomCamera, setZoomCamera] = useState(4);
 
-useEffect(() => {
-  const handleOrientationX = (event) => {
-    if (event.alpha > 0) {
-      setRotatingValue(rotatingValue + 0.0001);
-    } else if (event.alpha < 0) {
-      setRotatingValue(rotatingValue - 0.0001);
-    }
-  };
+  useEffect(() => {
+    const handleOrientationX = (event) => {
+      if (event.alpha > 0) {
+        setRotatingValue(rotatingValue + 0.001);
+      } else if (event.alpha < 0) {
+        setRotatingValue(rotatingValue - 0.001);
+      }
+    };
 
-  const handleOrientationY = (event) => {
-    if (event.gamma > 0) {
-      setZoomCamera(zoomCamera + 0.1);
-    } else if (event.gamma < 0) {
-      setZoomCamera(zoomCamera - 0.1);
-    }
-  };
+    const handleOrientationY = (event) => {
+      if (event.gamma > 0) {
+        setZoomCamera(zoomCamera + 0.001);
+      } else if (event.gamma < 0) {
+        setZoomCamera(zoomCamera - 0.001);
+      }
+    };
 
-  window.addEventListener("deviceorientation", handleOrientationX);
-  window.addEventListener("deviceorientation", handleOrientationY);
+    window.addEventListener("deviceorientation", handleOrientationX);
+    window.addEventListener("deviceorientation", handleOrientationY);
 
-  // return () => {
-  //   window.removeEventListener("deviceorientation", handleOrientationX);
-  //   window.removeEventListener("deviceorientation", handleOrientationY);
-  // };
-}, [rotatingValue, zoomCamera]);
+    // return () => {
+    //   window.removeEventListener("deviceorientation", handleOrientationX);
+    //   window.removeEventListener("deviceorientation", handleOrientationY);
+    // };
+  }, [rotatingValue, zoomCamera]);
 
   useEffect(() => {
     const audio = new Audio(figuresData[indexFigures].sound);
@@ -107,7 +107,10 @@ useEffect(() => {
         />
 
         <div className="flex flex-col items-center">
-          <h2 className="text-2xl text-white font-bold">
+          <h2
+            className="text-2xl text-white font-bold"
+            onClick={() => setZoomCamera(4)}
+          >
             {figuresData[indexFigures].name}
           </h2>
         </div>
