@@ -61,10 +61,7 @@ export default function Home() {
   const [indexFigures, setIndexFigures] = useState(0);
   const [zoomCamera, setZoomCamera] = useState(4);
 
-  if (typeof window !== "undefined") {
-    window.addEventListener("deviceorientation", handleOrientationX);
-    window.addEventListener("deviceorientation", handleOrientationY);
-  }
+useEffect(() => {
   const handleOrientationX = (event) => {
     if (event.alpha > 0) {
       setRotatingValue(rotatingValue + 0.0001);
@@ -80,6 +77,15 @@ export default function Home() {
       setZoomCamera(zoomCamera - 0.1);
     }
   };
+
+  window.addEventListener("deviceorientation", handleOrientationX);
+  window.addEventListener("deviceorientation", handleOrientationY);
+
+  return () => {
+    window.removeEventListener("deviceorientation", handleOrientationX);
+    window.removeEventListener("deviceorientation", handleOrientationY);
+  };
+}, [rotatingValue, zoomCamera]);
 
   useEffect(() => {
     const audio = new Audio(figuresData[indexFigures].sound);
