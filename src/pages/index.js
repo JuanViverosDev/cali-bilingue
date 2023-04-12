@@ -64,9 +64,9 @@ export default function Home() {
   useEffect(() => {
     const handleOrientationY = (event) => {
       if (event.gamma > 0) {
-        setZoomCamera(zoomCamera + 0.001);
+        setZoomCamera(zoomCamera + 0.01);
       } else if (event.gamma < 0) {
-        setZoomCamera(zoomCamera - 0.001);
+        setZoomCamera(zoomCamera - 0.01);
       }
     };
 
@@ -83,6 +83,10 @@ export default function Home() {
     };
 
     window.addEventListener("deviceorientation", handleOrientationX);
+
+    return () => {
+      window.removeEventListener("deviceorientation", handleOrientationX);
+    }
   }, [rotatingValue]);
 
   useEffect(() => {
