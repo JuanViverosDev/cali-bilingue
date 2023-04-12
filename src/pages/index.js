@@ -67,9 +67,9 @@ export default function Home() {
   }, [zoomCamera, rotatingValue]);
 
   const handleOrientationX = (event) => {
-    if (event.alpha > 0) {
+    if (event.beta > 0) {
       setRotatingValue(rotatingValue + 0.001);
-    } else if (event.alpha < 0) {
+    } else if (event.beta < 0) {
       setRotatingValue(rotatingValue - 0.001);
     }
   };
