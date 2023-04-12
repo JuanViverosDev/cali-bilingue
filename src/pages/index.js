@@ -62,6 +62,18 @@ export default function Home() {
   const [zoomCamera, setZoomCamera] = useState(4);
 
   useEffect(() => {
+    const handleOrientationY = (event) => {
+      if (event.gamma > 0) {
+        setZoomCamera(zoomCamera + 0.001);
+      } else if (event.gamma < 0) {
+        setZoomCamera(zoomCamera - 0.001);
+      }
+    };
+
+    window.addEventListener("deviceorientation", handleOrientationY);
+  }, [zoomCamera]);
+
+  useEffect(() => {
     const handleOrientationX = (event) => {
       if (event.alpha > 0) {
         setRotatingValue(rotatingValue + 0.0001);
@@ -70,18 +82,8 @@ export default function Home() {
       }
     };
 
-    const handleOrientationY = (event) => {
-      if (event.gamma > 0) {
-        setZoomCamera(zoomCamera + 0.01);
-      } else if (event.gamma < 0) {
-        setZoomCamera(zoomCamera - 0.01);
-      }
-    };
-
     window.addEventListener("deviceorientation", handleOrientationX);
-    window.addEventListener("deviceorientation", handleOrientationY);
-
-  }, [rotatingValue, zoomCamera]);
+  }, [rotatingValue]);
 
   useEffect(() => {
     const audio = new Audio(figuresData[indexFigures].sound);
