@@ -78,9 +78,7 @@ export default function Home() {
       }
     };
 
-    window.addEventListener("deviceorientation", handleOrientationX);
-    window.addEventListener("deviceorientation", handleOrientationY);
-
+    window.addEventListener("deviceorientation", [handleOrientationY, handleOrientationX]);
 
   }, [zoomCamera, rotatingValue]);
 
