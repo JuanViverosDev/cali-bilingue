@@ -68,9 +68,9 @@ export default function Home() {
 
   const handleOrientationX = (event) => {
     if (event.alpha > 0) {
-      setRotatingValue(rotatingValue + 0.0001);
+      setRotatingValue(rotatingValue + 0.001);
     } else if (event.alpha < 0) {
-      setRotatingValue(rotatingValue - 0.0001);
+      setRotatingValue(rotatingValue - 0.001);
     }
   };
 
