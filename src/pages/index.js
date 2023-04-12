@@ -81,9 +81,6 @@ export default function Home() {
     window.addEventListener("deviceorientation", handleOrientationX);
     window.addEventListener("deviceorientation", handleOrientationY);
 
-    return () => {
-      window.removeEventListener("deviceorientation", handleOrientationX);
-    }
 
   }, [zoomCamera, rotatingValue]);
 
@@ -134,7 +131,7 @@ export default function Home() {
         }}
       >
         <Canvas shadows className={css.canvas}>
-          <Camera position={[0, 2, zoomCamera]} />
+          <Camera position={[0, 1, zoomCamera]} />
           <ambientLight color={"white"} intensity={0.2} />
           <LightBulb position={[-10, 10, -10]} />
           <OrbitControls />
