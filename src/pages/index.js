@@ -129,7 +129,7 @@ export default function Home() {
         }}
       >
         <Canvas shadows className={css.canvas}>
-          <Camera position={[0, 1, zoomCamera]} />
+          <Camera position={[0, 0.5, zoomCamera]} />
           <ambientLight color={"white"} intensity={0.2} />
           <LightBulb position={[-10, 10, -10]} />
           <OrbitControls />
