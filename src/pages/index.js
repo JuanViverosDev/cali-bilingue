@@ -54,7 +54,8 @@ const figuresData = [
 export default function Home() {
   const [rotatingValue, setRotatingValue] = useState(0.01);
   const [indexFigures, setIndexFigures] = useState(0);
-  const [zoomCamera, setZoomCamera] = useState(4);
+  const [zoomCameraX, setZoomCameraX] = useState(4);
+  const [zoomCameraY, setZoomCameraY] = useState(2);
 
   useEffect(() => {
     const audio = new Audio(figuresData[indexFigures].sound);
@@ -65,11 +66,13 @@ export default function Home() {
     const handleOrientation = (event) => {
       const { beta } = event;
       let aumentar = beta > 90 && beta < 270 ? false : true;
-      if (zoomCamera > 0) {
+      if (zoomCameraX > 0 && zoomCameraY > 0) {
         if (aumentar) {
-          setZoomCamera((prev) => prev + 0.01);
+          setZoomCameraX((prev) => prev + 0.01);
+          setZoomCameraY((prev) => prev + 0.005);
         } else {
-          setZoomCamera((prev) => prev - 0.01);
+          setZoomCameraX((prev) => prev - 0.01);
+          setZoomCameraY((prev) => prev - 0.005);
         }
       }
     };
@@ -87,9 +90,9 @@ export default function Home() {
           : true;
       console.log(aumentar);
       if (aumentar) {
-        setRotatingValue((prev) => prev + 0.001);
+        if (rotatingValue < 0.1) setRotatingValue((prev) => prev + 0.001);
       } else {
-        setRotatingValue((prev) => prev - 0.001);
+        if (rotatingValue > -0.1) setRotatingValue((prev) => prev - 0.001);
       }
     };
 
@@ -119,7 +122,9 @@ export default function Home() {
         <div className="flex flex-col items-center">
           <h2
             className="text-2xl text-white font-bold"
-            onClick={() => setZoomCamera(4)}
+            onClick={() => {
+              setZoomCameraX(4), setZoomCameraY(2);
+            }}
           >
             {figuresData[indexFigures].name}
           </h2>
@@ -144,7 +149,7 @@ export default function Home() {
         }}
       >
         <Canvas shadows className={css.canvas}>
-          <Camera position={[0, 2, zoomCamera]} />
+          <Camera position={[0, zoomCameraY, zoomCameraX]} />
           <ambientLight color={"white"} intensity={0.2} />
           <LightBulb position={[-10, 10, -10]} />
           <OrbitControls />
