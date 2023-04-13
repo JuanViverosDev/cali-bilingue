@@ -98,9 +98,11 @@ export default function Home() {
           : true;
       console.log(aumentar);
       if (aumentar) {
-        setRotatingValue((prev) => prev + 0.001);
+        if (rotatingValue < 0.09) setRotatingValue((prev) => prev + 0.001);
+        else setRotatingValue(0.09);
       } else {
-        setRotatingValue((prev) => prev - 0.001);
+        if (rotatingValue > -0.09) setRotatingValue((prev) => prev - 0.001);
+        else setRotatingValue(-0.09);
       }
     };
 
@@ -112,6 +114,8 @@ export default function Home() {
       window.removeEventListener("deviceorientation", handleOrientationX);
     };
   }, []);
+
+  console.log(rotatingValue);
 
   return (
     <>
