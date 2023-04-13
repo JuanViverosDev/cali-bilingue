@@ -202,7 +202,7 @@ export default function Home() {
             <Button
               variant="contained"
               color="primary"
-              onClick={() => setOpenDialog(true)}
+              onClick={() => setInMenu(true)}
             >
               Back to menu
             </Button>
