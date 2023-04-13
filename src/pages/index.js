@@ -106,7 +106,6 @@ export default function Home() {
     };
   }, []);
   
-  console.log("useEffect", rotatingValue);
   return (
     <div className="flex flex-col justify-between h-screen items-center bg-black p-10">
       <div className="flex justify-between w-full mx-10">
