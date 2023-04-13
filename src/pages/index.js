@@ -1,12 +1,7 @@
-import Image from "next/image";
-import { Inter } from "next/font/google";
 import { Canvas } from "@react-three/fiber";
 import css from "../styles/home.module.css";
-import Floor from "@/components/Floor";
 import LightBulb from "@/components/LightBulb";
 import OrbitControls from "@/components/OrbitControls";
-import Draggable from "@/components/Draggable";
-import { Light } from "three";
 import { Suspense, useEffect, useState } from "react";
 import RotatingFigures from "@/components/RotatingFigures";
 import { Box, Cone, Cylinder, Sphere, Torus } from "@react-three/drei";
@@ -17,6 +12,7 @@ import SphereSound from "../sounds/SphereSound.mp3";
 import CylinderSound from "../sounds/CylinderSound.mp3";
 import ConeSound from "../sounds/ConeSound.mp3";
 import TorusSound from "../sounds/TorusSound.mp3";
+import useGyroscope from 'react-hook-gyroscope'
 
 const figuresData = [
   {
@@ -57,30 +53,25 @@ const figuresData = [
 ];
 
 export default function Home() {
+
+  const gyroscope = useGyroscope();
   const [rotatingValue, setRotatingValue] = useState(0.01);
   const [indexFigures, setIndexFigures] = useState(0);
   const [zoomCamera, setZoomCamera] = useState(4);
 
   useEffect(() => {
-    window.addEventListener("deviceorientation", handleOrientationX);
-    window.addEventListener("deviceorientation", handleOrientationY);
+    if (gyroscope.gamma > 0) {
+      setRotatingValue(zoomCamera + 0.01);
+    } else if (gyroscope.gamma < 0) {
+      setRotatingValue(zoomCamera - 0.01);
+    }
+
+    if (gyroscope.beta > 0) {
+      setZoomCamera(rotatingValue + 0.01);
+    } else if (gyroscope.beta < 0) {
+      setZoomCamera(rotatingValue - 0.01);
+    }
   }, [zoomCamera, rotatingValue]);
-
-  const handleOrientationX = (event) => {
-    if (event.beta > 0) {
-      setRotatingValue(rotatingValue + 0.001);
-    } else if (event.beta < 0) {
-      setRotatingValue(rotatingValue - 0.001);
-    }
-  };
-
-  const handleOrientationY = (event) => {
-    if (event.gamma > 0) {
-      setZoomCamera(zoomCamera + 0.01);
-    } else if (event.gamma < 0) {
-      setZoomCamera(zoomCamera - 0.01);
-    }
-  };
 
   useEffect(() => {
     const audio = new Audio(figuresData[indexFigures].sound);
