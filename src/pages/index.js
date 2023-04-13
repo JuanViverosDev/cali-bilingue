@@ -90,21 +90,23 @@ export default function Home() {
           : true;
       console.log(aumentar);
       if (aumentar) {
-        if (rotatingValue < 0.01) setRotatingValue((prev) => prev + 0.001);
+        setRotatingValue((prev) => prev + 0.001);
       } else {
-        if (rotatingValue > -0.01) setRotatingValue((prev) => prev - 0.001);
+        setRotatingValue((prev) => prev - 0.001);
       }
     };
 
+    
     window.addEventListener("deviceorientation", handleOrientation);
     window.addEventListener("deviceorientation", handleOrientationX);
-
+    
     return () => {
       window.removeEventListener("deviceorientation", handleOrientation);
       window.removeEventListener("deviceorientation", handleOrientationX);
     };
   }, []);
-
+  
+  console.log("useEffect", rotatingValue);
   return (
     <div className="flex flex-col justify-between h-screen items-center bg-black p-10">
       <div className="flex justify-between w-full mx-10">
