@@ -78,9 +78,9 @@ export default function Home() {
       let aumentar = alpha < 90 && alpha > 0 && gamma < 0 && gamma > -90 && beta > 0 && beta < 90 ? false : true;
       console.log(aumentar);
       if (aumentar) {
-        setRotatingValue((prev) => prev + 0.0001);
+        setRotatingValue((prev) => prev + 0.001);
       } else {
-        setRotatingValue((prev) => prev - 0.0001);
+        setRotatingValue((prev) => prev - 0.001);
       }
     };
 
