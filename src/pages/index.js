@@ -90,9 +90,9 @@ export default function Home() {
           : true;
       console.log(aumentar);
       if (aumentar) {
-        if (rotatingValue < 0.1) setRotatingValue((prev) => prev + 0.001);
+        if (rotatingValue < 0.05) setRotatingValue((prev) => prev + 0.001);
       } else {
-        if (rotatingValue > -0.1) setRotatingValue((prev) => prev - 0.001);
+        if (rotatingValue > -0.05) setRotatingValue((prev) => prev - 0.001);
       }
     };
 
