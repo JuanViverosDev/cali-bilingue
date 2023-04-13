@@ -63,6 +63,7 @@ export default function Home() {
   const [zoomCameraX, setZoomCameraX] = useState(4);
   const [zoomCameraY, setZoomCameraY] = useState(2);
   const [openDialog, setOpenDialog] = useState(false);
+  const [inMenu, setInMenu] = useState(true);
 
   useEffect(() => {
     const audio = new Audio(figuresData[indexFigures].sound);
@@ -113,96 +114,121 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="flex flex-col justify-between h-screen items-center bg-black">
-      <div className="flex justify-between w-full mx-10 bg-slate-600 p-4 items-center">
-        <div className="bg-slate-900 rounded-full p-1">
-          <ChevronLeftIcon
-            className="h-10 w-10 text-white"
-            onClick={() => {
-              if (indexFigures > 0) {
-                setIndexFigures(indexFigures - 1);
-              } else {
-                setIndexFigures(figures.length - 1);
-              }
-            }}
-          />
-        </div>
-
-        <div className="flex flex-col items-center">
-          <h2
-            className="text-2xl text-white font-bold"
-            onClick={() => {
-              setZoomCameraX(4), setZoomCameraY(2);
-            }}
-          >
-            {figuresData[indexFigures].name}
-          </h2>
-        </div>
-
-        <div className="bg-slate-900 rounded-full p-1">
-          <ChevronRightIcon
-            className="h-10 w-10 text-white"
-            onClick={() => {
-              if (indexFigures < figuresData.length - 1) {
-                setIndexFigures(indexFigures + 1);
-              } else {
-                setIndexFigures(0);
-              }
-            }}
-          />
-        </div>
-      </div>
-      <div
-        className={css.scene}
-        onClick={() => {
-          const audio = new Audio(figuresData[indexFigures].sound);
-          audio.play();
-        }}
-      >
-        <Canvas shadows className={css.canvas}>
-          <Camera position={[0, zoomCameraY, zoomCameraX]} />
-          <ambientLight color={"white"} intensity={0.2} />
-          <LightBulb position={[-10, 10, -10]} />
-          <OrbitControls />
-          <Suspense fallback={null}>
-            <RotatingFigures
-              position={[0, 0, 0]}
-              rotatingValue={rotatingValue}
-              FigureData={figuresData[indexFigures].component}
-              figureColor={figuresData[indexFigures].color}
-            />
-          </Suspense>
-        </Canvas>
-      </div>
-      <div className="mb-10">
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={() => setOpenDialog(true)}
-        >
-          See more
-        </Button>
-      </div>
-      <Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
-        <div className="flex flex-col items-center p-10">
-          <h2 className="text-2xl font-bold">
-            {figuresData[indexFigures].name}
-          </h2>
-          <p className="text-lg my-12">
-            {figuresData[indexFigures].description}
-          </p>
+    <>
+      {inMenu ? (
+        <div className="flex flex-col justify-center h-screen items-center bg-black">
+          <h1 className="text-9xl text-white font-bold text-center mb-14">
+            Cali <br /> Bilingue
+          </h1>
           <Button
             variant="contained"
-            color="primary"
             onClick={() => {
-              setOpenDialog(false);
-              setZoomCameraX(4), setZoomCameraY(2);
+              setInMenu(false);
             }}
           >
-            Back to 3D
+            Start
           </Button>
         </div>
-      </Dialog>
-    </div>
+      ) : (
+        <div className="flex flex-col justify-between h-screen items-center bg-black">
+          <div className="flex justify-between w-full mx-10 bg-slate-600 p-4 items-center">
+            <div className="bg-slate-900 rounded-full p-1">
+              <ChevronLeftIcon
+                className="h-10 w-10 text-white"
+                onClick={() => {
+                  if (indexFigures > 0) {
+                    setIndexFigures(indexFigures - 1);
+                  } else {
+                    setIndexFigures(figures.length - 1);
+                  }
+                }}
+              />
+            </div>
+
+            <div className="flex flex-col items-center">
+              <h2
+                className="text-2xl text-white font-bold"
+                onClick={() => {
+                  setZoomCameraX(4), setZoomCameraY(2);
+                }}
+              >
+                {figuresData[indexFigures].name}
+              </h2>
+            </div>
+
+            <div className="bg-slate-900 rounded-full p-1">
+              <ChevronRightIcon
+                className="h-10 w-10 text-white"
+                onClick={() => {
+                  if (indexFigures < figuresData.length - 1) {
+                    setIndexFigures(indexFigures + 1);
+                  } else {
+                    setIndexFigures(0);
+                  }
+                }}
+              />
+            </div>
+          </div>
+          <div
+            className={css.scene}
+            onClick={() => {
+              const audio = new Audio(figuresData[indexFigures].sound);
+              audio.play();
+            }}
+          >
+            <Canvas shadows className={css.canvas}>
+              <Camera position={[0, zoomCameraY, zoomCameraX]} />
+              <ambientLight color={"white"} intensity={0.2} />
+              <LightBulb position={[-10, 10, -10]} />
+              <OrbitControls />
+              <Suspense fallback={null}>
+                <RotatingFigures
+                  position={[0, 0, 0]}
+                  rotatingValue={rotatingValue}
+                  FigureData={figuresData[indexFigures].component}
+                  figureColor={figuresData[indexFigures].color}
+                />
+              </Suspense>
+            </Canvas>
+          </div>
+          <div className="mb-10 gap-4 flex">
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => setOpenDialog(true)}
+            >
+              See more
+            </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => setOpenDialog(true)}
+            >
+              Back to menu
+            </Button>
+          </div>
+          <Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
+            <div className="flex flex-col items-center p-10">
+              <h2 className="text-2xl font-bold">
+                {figuresData[indexFigures].name}
+              </h2>
+              <p className="text-lg my-12">
+                {figuresData[indexFigures].description}
+              </p>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => {
+                  setOpenDialog(false);
+                  setZoomCameraX(4), setZoomCameraY(2);
+                }}
+              >
+                Back to 3D
+              </Button>
+            </div>
+          </Dialog>
+        </div>
+      )}
+    </>
   );
 }
