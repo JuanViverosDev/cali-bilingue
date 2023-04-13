@@ -73,7 +73,7 @@ export default function Home() {
       }
     };
 
-    window.addEventListener("deviceorientation", handleOrientation);
+    // window.addEventListener("deviceorientation", handleOrientation);
 
   }, []);
 
