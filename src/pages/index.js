@@ -224,7 +224,7 @@ export default function Home() {
                 color="primary"
                 onClick={() => {
                   setOpenDialog(false);
-                  setZoomCameraX(4), setZoomCameraY(2);
+                  setZoomCameraX(4), setZoomCameraY(2), setRotatingValue(0.01);
                 }}
               >
                 Back to 3D
