@@ -66,20 +66,28 @@ export default function Home() {
   useEffect(() => {
     const handleOrientation = (event) => {
       const { beta } = event;
-      setRotatingValue(beta / 1000);
+      let aumentar = beta > 90 && beta < 270 ? false : true;
+      if (aumentar) {
+        setZoomCamera((prev) => prev + 0.01);
+      } else {
+        setZoomCamera((prev) => prev - 0.01);
+      }
     };
 
     window.addEventListener("deviceorientation", handleOrientation);
 
-    return () => {
-      window.removeEventListener("deviceorientation", handleOrientation);
-    };
   }, []);
   // Cuando incline el dispositivo hacia adelante, aumenta el valor del zoom, y viceversa
   useEffect(() => {
     const handleOrientation = (event) => {
       const { gamma } = event;
-      setZoomCamera(gamma / 10);
+      let aumentar = gamma > 270 && gamma < 370 ? true : false;
+      console.log(aumentar);
+      if (aumentar) {
+        setRotatingValue((prev) => prev + 0.0001);
+      } else {
+        setRotatingValue((prev) => prev - 0.0001);
+      }
     };
 
     window.addEventListener("deviceorientation", handleOrientation);
