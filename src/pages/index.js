@@ -76,11 +76,11 @@ export default function Home() {
       let aumentar = beta > 90 && beta < 270 ? false : true;
       if (zoomCameraX > 0 && zoomCameraY > 0) {
         if (aumentar) {
-          setZoomCameraX((prev) => prev + 0.01);
-          setZoomCameraY((prev) => prev + 0.005);
+          setZoomCameraX((prev) => prev + 0.02);
+          setZoomCameraY((prev) => prev + 0.01);
         } else {
-          setZoomCameraX((prev) => prev - 0.01);
-          setZoomCameraY((prev) => prev - 0.005);
+          setZoomCameraX((prev) => prev - 0.02);
+          setZoomCameraY((prev) => prev - 0.01);
         }
       }
     };
@@ -93,7 +93,7 @@ export default function Home() {
         gamma < 0 &&
         gamma > -90 &&
         beta > 0 &&
-        beta < 120
+        beta < 90
           ? false
           : true;
       console.log(aumentar);
