@@ -73,16 +73,7 @@ export default function Home() {
       }
     };
 
-    window.addEventListener("deviceorientation", handleOrientation);
-
-    return () => {
-      window.removeEventListener("deviceorientation", handleOrientation);
-    };
-
-  }, []);
-
-  useEffect(() => {
-    const handleOrientation = (event) => {
+    const handleOrientationX = (event) => {
       const { gamma, alpha, beta } = event;
       let aumentar = alpha < 90 && alpha > 0 && gamma < 0 && gamma > -90 && beta > 0 && beta < 90 ? false : true;
       console.log(aumentar);
@@ -94,10 +85,14 @@ export default function Home() {
     };
 
     window.addEventListener("deviceorientation", handleOrientation);
+    window.addEventListener("deviceorientation", handleOrientationX);
+
 
     return () => {
       window.removeEventListener("deviceorientation", handleOrientation);
+      window.removeEventListener("deviceorientation", handleOrientationX);
     };
+
   }, []);
 
   return (
