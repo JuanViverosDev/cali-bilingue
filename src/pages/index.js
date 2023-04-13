@@ -12,6 +12,7 @@ import SphereSound from "../sounds/SphereSound.mp3";
 import CylinderSound from "../sounds/CylinderSound.mp3";
 import ConeSound from "../sounds/ConeSound.mp3";
 import TorusSound from "../sounds/TorusSound.mp3";
+import { Button, Dialog } from "@mui/material";
 
 const figuresData = [
   {
@@ -61,6 +62,7 @@ export default function Home() {
   const [indexFigures, setIndexFigures] = useState(0);
   const [zoomCameraX, setZoomCameraX] = useState(4);
   const [zoomCameraY, setZoomCameraY] = useState(2);
+  const [openDialog, setOpenDialog] = useState(false);
 
   useEffect(() => {
     const audio = new Audio(figuresData[indexFigures].sound);
@@ -172,6 +174,35 @@ export default function Home() {
           </Suspense>
         </Canvas>
       </div>
+      <div className="mb-10">
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => setOpenDialog(true)}
+        >
+          See more
+        </Button>
+      </div>
+      <Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
+        <div className="flex flex-col items-center p-10">
+          <h2 className="text-2xl font-bold">
+            {figuresData[indexFigures].name}
+          </h2>
+          <p className="text-lg my-12">
+            {figuresData[indexFigures].description}
+          </p>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => {
+              setOpenDialog(false);
+              setZoomCameraX(4), setZoomCameraY(2);
+            }}
+          >
+            Back to 3D
+          </Button>
+        </div>
+      </Dialog>
     </div>
   );
 }
