@@ -101,29 +101,30 @@ export default function Home() {
       }
     };
 
-    
     window.addEventListener("deviceorientation", handleOrientation);
     window.addEventListener("deviceorientation", handleOrientationX);
-    
+
     return () => {
       window.removeEventListener("deviceorientation", handleOrientation);
       window.removeEventListener("deviceorientation", handleOrientationX);
     };
   }, []);
-  
+
   return (
-    <div className="flex flex-col justify-between h-screen items-center bg-black p-10">
-      <div className="flex justify-between w-full mx-10">
-        <ChevronLeftIcon
-          className="h-10 w-10 text-white"
-          onClick={() => {
-            if (indexFigures > 0) {
-              setIndexFigures(indexFigures - 1);
-            } else {
-              setIndexFigures(figures.length - 1);
-            }
-          }}
-        />
+    <div className="flex flex-col justify-between h-screen items-center bg-black">
+      <div className="flex justify-between w-full mx-10 bg-slate-600 p-4 items-center">
+        <div className="bg-slate-900 rounded-full p-1">
+          <ChevronLeftIcon
+            className="h-10 w-10 text-white"
+            onClick={() => {
+              if (indexFigures > 0) {
+                setIndexFigures(indexFigures - 1);
+              } else {
+                setIndexFigures(figures.length - 1);
+              }
+            }}
+          />
+        </div>
 
         <div className="flex flex-col items-center">
           <h2
@@ -136,16 +137,18 @@ export default function Home() {
           </h2>
         </div>
 
-        <ChevronRightIcon
-          className="h-10 w-10 text-white"
-          onClick={() => {
-            if (indexFigures < figuresData.length - 1) {
-              setIndexFigures(indexFigures + 1);
-            } else {
-              setIndexFigures(0);
-            }
-          }}
-        />
+        <div className="bg-slate-900 rounded-full p-1">
+          <ChevronRightIcon
+            className="h-10 w-10 text-white"
+            onClick={() => {
+              if (indexFigures < figuresData.length - 1) {
+                setIndexFigures(indexFigures + 1);
+              } else {
+                setIndexFigures(0);
+              }
+            }}
+          />
+        </div>
       </div>
       <div
         className={css.scene}
