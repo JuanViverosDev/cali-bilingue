@@ -12,7 +12,6 @@ import SphereSound from "../sounds/SphereSound.mp3";
 import CylinderSound from "../sounds/CylinderSound.mp3";
 import ConeSound from "../sounds/ConeSound.mp3";
 import TorusSound from "../sounds/TorusSound.mp3";
-import dynamic from 'next/dynamic'
 
 const figuresData = [
   {
@@ -54,30 +53,41 @@ const figuresData = [
 
 
 export default function Home() {
-  const gyroscope = dynamic( () => import('react-hook-gyroscope'), { ssr: false } );
-  console.log( gyroscope.x);
   const [rotatingValue, setRotatingValue] = useState(0.01);
   const [indexFigures, setIndexFigures] = useState(0);
   const [zoomCamera, setZoomCamera] = useState(4);
 
   useEffect(() => {
-    if (gyroscope.gamma > 0) {
-      setRotatingValue(zoomCamera + 0.01);
-    } else if (gyroscope.gamma < 0) {
-      setRotatingValue(zoomCamera - 0.01);
-    }
-
-    if (gyroscope.beta > 0) {
-      setZoomCamera(rotatingValue + 0.01);
-    } else if (gyroscope.beta < 0) {
-      setZoomCamera(rotatingValue - 0.01);
-    }
-  }, [zoomCamera, rotatingValue]);
-
-  useEffect(() => {
     const audio = new Audio(figuresData[indexFigures].sound);
     audio.play();
   }, [indexFigures]);
+
+  // Cuando incline el dispositivo a la izquierda, aumenta el valor de la rotación, y viceversa
+  useEffect(() => {
+    const handleOrientation = (event) => {
+      const { beta } = event;
+      setRotatingValue(beta / 1000);
+    };
+
+    window.addEventListener("deviceorientation", handleOrientation);
+
+    return () => {
+      window.removeEventListener("deviceorientation", handleOrientation);
+    };
+  }, []);
+  // Cuando incline el dispositivo hacia adelante, aumenta el valor del zoom, y viceversa
+  useEffect(() => {
+    const handleOrientation = (event) => {
+      const { gamma } = event;
+      setZoomCamera(gamma / 10);
+    };
+
+    window.addEventListener("deviceorientation", handleOrientation);
+
+    return () => {
+      window.removeEventListener("deviceorientation", handleOrientation);
+    };
+  }, []);
 
   return (
     <div className="flex flex-col justify-between h-screen items-center bg-black p-10">
@@ -134,11 +144,6 @@ export default function Home() {
           </Suspense>
         </Canvas>
       </div>
-      <ul className="text-white">
-        <li>X: {gyroscope.x}</li>
-        <li>Y: {gyroscope.y}</li>
-        <li>Z: {gyroscope.z}</li>
-      </ul>
     </div>
   );
 }
