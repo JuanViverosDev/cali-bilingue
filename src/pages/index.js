@@ -74,14 +74,14 @@ export default function Home() {
       }
     };
 
-    window.addEventListener("deviceorientation", handleOrientation);
+    // window.addEventListener("deviceorientation", handleOrientation);
 
   }, []);
   // Cuando incline el dispositivo hacia adelante, aumenta el valor del zoom, y viceversa
   useEffect(() => {
     const handleOrientation = (event) => {
-      const { gamma } = event;
-      let aumentar = gamma > 270 && gamma < 370 ? true : false;
+      const { gamma, alpha, beta } = event;
+      let aumentar = alpha < 90 && alpha > 0 && gamma < 0 && gamma > -90 && beta > 0 && beta < 90 ? false : true;
       console.log(aumentar);
       if (aumentar) {
         setRotatingValue((prev) => prev + 0.0001);
