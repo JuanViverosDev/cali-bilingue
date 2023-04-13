@@ -3,7 +3,7 @@ import { useFrame } from "@react-three/fiber";
 import { useRef, useState } from "react";
 
 function RotatingFigures(props) {
-  const { rotatingValue, FigureData } = props;
+  const { rotatingValue, FigureData, figureColor } = props;
   
   const meshRef = useRef();
 
@@ -13,7 +13,7 @@ function RotatingFigures(props) {
 
   return (
     <FigureData ref={meshRef}>
-      <meshStandardMaterial color="hotpink" />
+      <meshStandardMaterial color={figureColor} />
     </FigureData>
   );
 }
