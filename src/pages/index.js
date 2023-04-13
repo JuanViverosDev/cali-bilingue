@@ -12,7 +12,7 @@ import SphereSound from "../sounds/SphereSound.mp3";
 import CylinderSound from "../sounds/CylinderSound.mp3";
 import ConeSound from "../sounds/ConeSound.mp3";
 import TorusSound from "../sounds/TorusSound.mp3";
-import useGyroscope from "react-hook-gyroscope";
+import dynamic from 'next/dynamic'
 
 const figuresData = [
   {
@@ -52,8 +52,10 @@ const figuresData = [
   },
 ];
 
+
 export default function Home() {
-  const gyroscope = useGyroscope();
+  const gyroscope = dynamic( () => import('react-hook-gyroscope'), { ssr: false } );
+  console.log( gyroscope.x);
   const [rotatingValue, setRotatingValue] = useState(0.01);
   const [indexFigures, setIndexFigures] = useState(0);
   const [zoomCamera, setZoomCamera] = useState(4);
@@ -132,7 +134,7 @@ export default function Home() {
           </Suspense>
         </Canvas>
       </div>
-      <ul>
+      <ul className="text-white">
         <li>X: {gyroscope.x}</li>
         <li>Y: {gyroscope.y}</li>
         <li>Z: {gyroscope.z}</li>
