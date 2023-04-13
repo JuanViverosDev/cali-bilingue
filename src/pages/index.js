@@ -62,7 +62,6 @@ export default function Home() {
     audio.play();
   }, [indexFigures]);
 
-  // Cuando incline el dispositivo a la izquierda, aumenta el valor de la rotación, y viceversa
   useEffect(() => {
     const handleOrientation = (event) => {
       const { beta } = event;
@@ -74,19 +73,19 @@ export default function Home() {
       }
     };
 
-    // window.addEventListener("deviceorientation", handleOrientation);
+    window.addEventListener("deviceorientation", handleOrientation);
 
   }, []);
-  // Cuando incline el dispositivo hacia adelante, aumenta el valor del zoom, y viceversa
+
   useEffect(() => {
     const handleOrientation = (event) => {
       const { gamma, alpha, beta } = event;
       let aumentar = alpha < 90 && alpha > 0 && gamma < 0 && gamma > -90 && beta > 0 && beta < 90 ? false : true;
       console.log(aumentar);
       if (aumentar) {
-        setRotatingValue((prev) => prev + 0.0001);
+        setRotatingValue((prev) => prev + 0.001);
       } else {
-        setRotatingValue((prev) => prev - 0.0001);
+        setRotatingValue((prev) => prev - 0.001);
       }
     };
 
