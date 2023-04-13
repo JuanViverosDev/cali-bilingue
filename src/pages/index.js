@@ -51,7 +51,6 @@ const figuresData = [
   },
 ];
 
-
 export default function Home() {
   const [rotatingValue, setRotatingValue] = useState(0.01);
   const [indexFigures, setIndexFigures] = useState(0);
@@ -66,16 +65,26 @@ export default function Home() {
     const handleOrientation = (event) => {
       const { beta } = event;
       let aumentar = beta > 90 && beta < 270 ? false : true;
-      if (aumentar) {
-        setZoomCamera((prev) => prev + 0.01);
-      } else {
-        setZoomCamera((prev) => prev - 0.01);
+      if (zoomCamera > 0) {
+        if (aumentar) {
+          setZoomCamera((prev) => prev + 0.01);
+        } else {
+          setZoomCamera((prev) => prev - 0.01);
+        }
       }
     };
 
     const handleOrientationX = (event) => {
       const { gamma, alpha, beta } = event;
-      let aumentar = alpha < 90 && alpha > 0 && gamma < 0 && gamma > -90 && beta > 0 && beta < 90 ? false : true;
+      let aumentar =
+        alpha < 90 &&
+        alpha > 0 &&
+        gamma < 0 &&
+        gamma > -90 &&
+        beta > 0 &&
+        beta < 90
+          ? false
+          : true;
       console.log(aumentar);
       if (aumentar) {
         setRotatingValue((prev) => prev + 0.001);
@@ -87,12 +96,10 @@ export default function Home() {
     window.addEventListener("deviceorientation", handleOrientation);
     window.addEventListener("deviceorientation", handleOrientationX);
 
-
     return () => {
       window.removeEventListener("deviceorientation", handleOrientation);
       window.removeEventListener("deviceorientation", handleOrientationX);
     };
-
   }, []);
 
   return (
@@ -137,7 +144,7 @@ export default function Home() {
         }}
       >
         <Canvas shadows className={css.canvas}>
-          <Camera position={[0, 0.5, zoomCamera]} />
+          <Camera position={[0, 2, zoomCamera]} />
           <ambientLight color={"white"} intensity={0.2} />
           <LightBulb position={[-10, 10, -10]} />
           <OrbitControls />
