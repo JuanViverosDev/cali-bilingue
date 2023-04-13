@@ -117,7 +117,7 @@ export default function Home() {
     <>
       {inMenu ? (
         <div className="flex flex-col justify-center h-screen items-center bg-black">
-          <h1 className="text-9xl text-white font-bold text-center mb-14">
+          <h1 className="md:text-9xl text-7xl text-white font-bold text-center mb-14">
             Cali <br /> Bilingue
           </h1>
           <Button
