@@ -153,7 +153,7 @@ export default function Home() {
               <h2
                 className="text-2xl text-white font-bold"
                 onClick={() => {
-                  setZoomCameraX(4), setZoomCameraY(2);
+                  setZoomCameraX(4), setZoomCameraY(2), setRotatingValue(0.01);
                 }}
               >
                 {figuresData[indexFigures].name}
