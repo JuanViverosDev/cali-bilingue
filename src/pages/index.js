@@ -93,7 +93,7 @@ export default function Home() {
         gamma < 0 &&
         gamma > -90 &&
         beta > 0 &&
-        beta < 90
+        beta < 120
           ? false
           : true;
       console.log(aumentar);
